@@ -16,8 +16,12 @@ def login():
 def getNutrtion():
     print('inside get nutrition')
     if request.method=='POST':
-        getNutritionfacts()
-        return render_template('index.html')
+        useritem = request.form.get('itemName')
+        userBrand=request.form.get('brand')
+        userquantity = request.form.get('quantity')
+        usermealtype= request.form['usermealtype']
+        getNutritionfacts(useritem ,userBrand, userquantity,usermealtype)
+        return render_template('Main.html')
 
 if __name__ == '__main__':
     app.debug = True
