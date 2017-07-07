@@ -8,16 +8,16 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
-body, html {
+    body, html {
     height: 100%;
     margin: 0;
-}
+    }
 
-#dropdownmenu{
+    #dropdownmenu{
     margin: 30px 125px 10px;
-}
-#breakfast,#lunch,#Other,#dinner
-{
+    }
+    #breakfast,#lunch,#Other,#dinner
+    {
     float: left;
     padding-left: 1cm;
     display: inline-block;
@@ -40,8 +40,8 @@ body, html {
     background-repeat: no-repeat;
     background-size: cover;
 }
-#mealModal .modal-dialog  {width:75%;}
-</style>
+    #mealModal .modal-dialog  {width:75%;}
+    </style>
      <script type="text/javascript">
         function show() { document.getElementById('area').style.display = 'block'; }
         function hide() { document.getElementById('brand').style.display = 'none'; }
@@ -55,7 +55,7 @@ body, html {
       <li class="active"><a href="#">My Dash Board</a></li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Today's meal <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a data-toggle="modal" data-target="#mealModal">Break fast</a></li>
+          <li><a data-toggle="modal" data-target="#mealModal">Breakfast</a></li>
           <li><a href="#">Lunch</a></li>
           <li><a href="#">Dinner</a></li>
           <li><a href="#">Others</a></li>
@@ -66,12 +66,12 @@ body, html {
         <input type="text" class="form-control" placeholder="Search">
       </div>
       <button type="submit" class="btn btn-default">Go</button>
-     </form>
+      </form>
       <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> My Details</a></li>
+      <li><a href="#" data-toggle="modal" data-target="#nutritiondetails"><span class="glyphicon glyphicon-user"></span> My Details</a></li>
       <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
-    </ul>
+        </ul>
   </div>
 </nav>
 
@@ -85,16 +85,16 @@ body, html {
             <h4 class="modal-title">Enter your meal</h4>
           </div>
           <div class="modal-body">
-            <form role="Enter Meal" action = "http://127.0.0.1:5000/getNutrition" method="post">
-                 <div class="radio">
-                <label><input type="radio" checked name="usermealtype" id="branded" onclick="document.getElementById('brand').style.display = 'block';" value = "branded">Branded Foods</label>
-                </div>
-                <div class="radio">
-                <label><input type="radio" name="usermealtype" id = "common" value = "common" onclick="hide();">Common Foods</label>
-                </div>
+          <form role="Enter Meal" action = "http://127.0.0.1:5000/getNutrition" method="post">
+            <div class="radio">
+                <label><input type="radio" checked name="usermealtype" id="branded" onclick="document.getElementById('brand').style.display = 'block';document.getElementById('itemName').style.display = 'block';document.getElementById('quantity').style.display = 'block'; document.getElementById('area').style.display = 'none';" value = "branded">Branded Foods</label>
+            </div>
+             <div class="radio">
+                <label><input type="radio" name="usermealtype" id = "common" value = "common" onclick="hide();document.getElementById('itemName').style.display = 'block';document.getElementById('quantity').style.display = 'block'; document.getElementById('area').style.display = 'none';">Common Foods</label>
+              </div>
 
                   <div class="radio">
-                <label><input type="radio" name="usermealtype" id="elaborateText" onclick="show();">Enter specific meal</label>
+                <label><input type="radio" name="usermealtype" id="elaborateText" onclick="show(); document.getElementById('brand').style.display = 'none'; document.getElementById('quantity').style.display = 'none';document.getElementById('itemName').style.display = 'none';">Enter specific meal</label>
                 </div>
 
              <div class="form-group">
@@ -108,10 +108,10 @@ body, html {
 
                 <div class="form-group">
                 <label class="sr-only" for="quantity" >Quantity</label>
-                <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Enter the quantity with units.Eg.1 cup/1 slice/10 oz/1">
+                <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Enter the quantity with units.Eg.1 cup/1 slice/">
               </div>
 
-               <TEXTAREA id="area" style="display: none;" name="data" ROWS=10 COLS=50></TEXTAREA>
+               <TEXTAREA id="area" style="display: none;" name="data" ROWS=10 COLS=50 placeholder="1 cup flour, 1 pinch of salt, and 1 cup butter"></TEXTAREA>
 
               <button type="submit" class="btn btn-info ">Add to meal</button>
 
@@ -121,6 +121,43 @@ body, html {
       </div>
     </div>
     <!-- SIGNUP MODAL END -->
+
+
+<!--  nutritiondetails modal start-->
+<div id="nutritiondetails" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"> Please enter all the details as acurately as possible</h4>
+      </div>
+        <form role="Enter Meal" action = "http://127.0.0.1:5000/enterNutriDetails" method="post">
+        <div class="form-group">
+        <label for="inputsm">Sex</label>
+        <label class="radio-inline"><input type="radio" name="optradio">Male</label>
+        <label class="radio-inline"><input type="radio" name="optradio">Female</label>
+        <br><label for="inputsm">Weight in kilograms</label>
+        <input class="form-control input-sm" id="inputsm" type="text">
+        <label for="inputsm">Age in centimeters </label>
+        <input class="form-control input-sm" id="inputsm" type="text">
+        <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+        <span class="caret"> Select your regular physical activity</span></button>
+        <ul class="dropdown-menu">
+            <li><a href="#">low amount of activity</a></li>
+            <li><a href="#">average amount of activity</a></li>
+            <li><a href="#">high amount of activity</a></li>
+        </ul>
+        </div>
+        </div>
+        <button type="submit" class="btn btn-info ">submit</button>
+        </form>
+        </div>
+        </div>
+        </div>
+<!--nutritiondetails modal end -->
 
 <div class="dropdown" style="width:400px;  border-top-width: thick ; margin:0 auto;">
   <button class="btn btn-primary dropdown-toggle" id="dropdownmenu" type="button" data-toggle="dropdown">June-27-2017
