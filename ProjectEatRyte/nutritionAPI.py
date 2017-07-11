@@ -4,7 +4,7 @@ import datetime
 from requests import put, get , post
 
 #if __name__ == '__main__':
-def getNutritionfacts(useritem ,userBrand, userquantity,usermealtype):
+def getNutritionfacts(useritem,userBrand,userquantity,usermealtype):
     print('inside get nutri facts')
     url = "https://trackapi.nutritionix.com/v2/search/instant?query="+useritem
     url2="https://trackapi.nutritionix.com/v2/natural/nutrients"
@@ -14,21 +14,27 @@ def getNutritionfacts(useritem ,userBrand, userquantity,usermealtype):
     headers = {'Content-Type': content_type_header,'x-app-id': APPID ,'x-app-key':APPKEY}
     r = get(url,headers=headers).json()
     print(usermealtype)
-    #print(r)
-    for  item in r:
+    print(r)
+    for item in r:
         #print(item)
         if(usermealtype=="common"):
             itemName = r[item][0]["food_name"]
+
             items = {"query": itemName,"timezone": "US/Eastern"}
             r2 = post(url2,data=json.dumps(items),headers=headers).json()
-            print( r2['foods'][0])
+            print (r2)
             if(r2['foods'][0]["food_name"]==itemName):
                     print("-------------------------------------------------")
                     print(r2['foods'][0]["serving_qty"])
+                    print("Calories")
                     print(r2["foods"][0]["nf_calories"])
+                    print("Fat")
                     print(r2['foods'][0]["nf_total_fat"])
+                    print("Sugars")
                     print(r2['foods'][0]["nf_sugars"])
+                    print("Protein")
                     print(r2['foods'][0]["nf_protein"])
+                    print("Carbohydrates")
                     print(r2['foods'][0]["nf_total_carbohydrate"])
         elif(usermealtype=="branded"):
             print("branded")
@@ -38,10 +44,15 @@ def getNutritionfacts(useritem ,userBrand, userquantity,usermealtype):
             r2 = post(url2, data=json.dumps(items), headers=headers).json()
             print(r2)
             print("branded nix is ")
+            print("Calories")
             print(r2["foods"][0]["nf_calories"])
+            print("Fat")
             print(r2['foods'][0]["nf_total_fat"])
+            print("Sugars")
             print(r2['foods'][0]["nf_sugars"])
+            print("Protein")
             print(r2['foods'][0]["nf_protein"])
+            print("Carbohydrates")
             print(r2['foods'][0]["nf_total_carbohydrate"])
 
 

@@ -69,9 +69,12 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
       <li><a href="#" data-toggle="modal" data-target="#nutritiondetails"><span class="glyphicon glyphicon-user"></span> My Details</a></li>
+          <li><a href="#" class="btn btn-info btn-lg" data-toggle="modal" data-target="#mynutritiondetails">My Nutrition Requirements</a></li>
       <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
+
         </ul>
+
   </div>
 </nav>
 
@@ -135,22 +138,27 @@
       </div>
         <form role="Enter Meal" action = "http://127.0.0.1:5000/enterNutriDetails" method="post">
         <div class="form-group">
-        <label for="inputsm">Sex</label>
-        <label class="radio-inline"><input type="radio" name="optradio">Male</label>
-        <label class="radio-inline"><input type="radio" name="optradio">Female</label>
+       <!-- <label for="inputsm">Sex</label>
+        <label class="radio-inline"><input type="radio" name="sex">Male</label>
+        <label class="radio-inline"><input type="radio" name="sex">Female</label> !-->
+            <label for="inputsm">Sex</label>
+      <select class="form-control" id="physical activity " name = "sex">
+    <option>Male</option>
+    <option>Female</option>
+  </select>
         <br><label for="inputsm">Weight in kilograms</label>
-        <input class="form-control input-sm" id="inputsm" type="text">
-        <label for="inputsm">Age in centimeters </label>
-        <input class="form-control input-sm" id="inputsm" type="text">
-        <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
-        <span class="caret"> Select your regular physical activity</span></button>
-        <ul class="dropdown-menu">
-            <li><a href="#">low amount of activity</a></li>
-            <li><a href="#">average amount of activity</a></li>
-            <li><a href="#">high amount of activity</a></li>
-        </ul>
-        </div>
+        <input class="form-control input-sm" name="weight" id="inputsm" type="text">
+        <br><label for="inputsm">Height in centimeters</label>
+        <input class="form-control input-sm" name="height" id="inputsm" type="text">
+        <br><label for="inputsm">Age in years </label>
+        <input class="form-control input-sm" name="age" id="inputsm" type="text">
+
+             <label for="sel1">Regular physical activity</label>
+  <select class="form-control" id="physical activity " name = "physical activity">
+    <option>low amount of activity</option>
+    <option>average amount of activity</option>
+    <option>high amount of activity</option>
+  </select>
         </div>
         <button type="submit" class="btn btn-info ">submit</button>
         </form>
@@ -158,6 +166,28 @@
         </div>
         </div>
 <!--nutritiondetails modal end -->
+<div id="mynutritiondetails" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"> Your Nutrition Requirements
+             {% if cal and  pro_l and pro_u and  carbs_l and carbs_u and fats%}
+                <h1>Calories  {{ cal }}calories !</h1>
+
+                <h1> Protien Lower Limit {{ pro_l }}grams !</h1>
+                <h1> Protien upper Limit {{ pro_u }}grams !</h1>
+                <h1> carbs upper Limit {{ carbs_l }}grams !</h1>
+                <h1> carbs upper Limit {{ carbs_u }}grams !</h1>
+                <h1>Calories  {{ fats }}calories !</h1>
+             {% else  %}
+                <h1>Please fill  in your  details!</h1>
+             {% endif %}</h4>
+
+
+
+      </div>
+     </div>
+</div>
 
 <div class="dropdown" style="width:400px;  border-top-width: thick ; margin:0 auto;">
   <button class="btn btn-primary dropdown-toggle" id="dropdownmenu" type="button" data-toggle="dropdown">June-27-2017
