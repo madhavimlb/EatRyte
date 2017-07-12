@@ -39,8 +39,8 @@ class actualNutrition:
         cal = self.calulateCalorieNeeds()
 
         print(cal)
-        carbs_lowerLimit = 45/100*cal
-        carbs_upperLimit=60/100*cal
+        carbs_lowerLimit = (45/100*cal)/4
+        carbs_upperLimit=(60/100*cal)/4
         carbsNeeds = [carbs_lowerLimit, carbs_upperLimit]
         return carbsNeeds
 

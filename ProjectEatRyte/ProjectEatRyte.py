@@ -33,15 +33,22 @@ def enterNutritionDetails():
         print(physicalActivity)
         nutrition = actualNutrition(sex,height,weight,age,physicalActivity)
         cal = nutrition.calulateCalorieNeeds()
+        cal = float("{0:.2f}".format(cal))
+        print("------------------tyoe cal ---------------------")
+        print(type(cal))
         print("Calories : %f" %cal)
         pro = nutrition.calulateProteinNeeds()
+        pro_l= float("{0:.2f}".format(pro[0]))
+        pro_u = float("{0:.2f}".format(pro[1]))
         print("Protiens : lower limit %f , upper limit %f" % (pro[0] ,pro[1]))
         carbs = nutrition.calculateCarbsNeeds()
+        carbs_l = float("{0:.2f}".format(carbs[0]))
+        carbs_u = float("{0:.2f}".format(carbs[1]))
         print("Carbs : lower limit %f , upper limit %f" % (carbs[0], carbs[1]))
         fats = nutrition.calculateFasNeeds()
         print("fats :  %f" % fats)
         #Session["Calories"] = cal
-        return render_template('Main.html',cal=cal,pro_l=pro[0],pro_u=pro[1],carbs_u=carbs[0],carbs_l=carbs[1],fats=fats)
+        return render_template('Main.html',cal=cal,pro_l=pro_l,pro_u=pro_u,carbs_u=carbs_u,carbs_l=carbs_l,fats=fats)
 @app.route('/getNutrition', methods=['POST'])
 def getNutrtion():
     print('inside get nutrition')
@@ -50,8 +57,8 @@ def getNutrtion():
         userBrand=request.form.get('brand')
         userquantity = request.form.get('quantity')
         usermealtype= request.form['usermealtype']
-        getNutritionfacts(useritem ,userBrand, userquantity,usermealtype)
-        return render_template('Main.html')
+        nutritionValList = getNutritionfacts(useritem ,userBrand, userquantity,usermealtype)
+        return render_template('Main.html',calIntake=nutritionValList[0],proIntake=nutritionValList[1],carbsIntake=nutritionValList[2],fatsIntake=nutritionValList[3],useritem=useritem,qty=nutritionValList[4],servingUnit=nutritionValList[5])
 
 if __name__ == '__main__':
     app.debug = True

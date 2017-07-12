@@ -52,7 +52,7 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">My Dash Board</a></li>
+      <li class="active"><a href="#" data-toggle="modal" data-target="#Actualnutritiondetails" >My Dash Board</a></li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Today's meal <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a data-toggle="modal" data-target="#mealModal">Breakfast</a></li>
@@ -170,18 +170,41 @@
   <div class="modal-dialog">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"> Your Nutrition Requirements
+        <h2 class="modal-title">  Your Nutrition Requirements (per day) : <br> </h2>
              {% if cal and  pro_l and pro_u and  carbs_l and carbs_u and fats%}
-                <h1>Calories  {{ cal }}calories !</h1>
-
-                <h1> Protien Lower Limit {{ pro_l }}grams !</h1>
-                <h1> Protien upper Limit {{ pro_u }}grams !</h1>
-                <h1> carbs upper Limit {{ carbs_l }}grams !</h1>
-                <h1> carbs upper Limit {{ carbs_u }}grams !</h1>
-                <h1>Calories  {{ fats }}calories !</h1>
+                <h4> Calories     :   {{ cal }} calories !</h4>
+                <h4> Protiens     : {{ pro_l  }} - {{ pro_u }} grams </h4>
+              <!--  <h4> Protien upper Limit {{ pro_u }}grams </h4>-->
+                <h4> Carbohydrates :  {{ carbs_l }} - {{ carbs_u }} grams </h4>
+               <!-- <h4> carbs upper Limit {{ carbs_u }}grams </h4>-->
+                <h4>Fats : {{ fats }} grams </h4>
              {% else  %}
-                <h1>Please fill  in your  details!</h1>
-             {% endif %}</h4>
+                <h4>Please fill  in your  details!</h4>
+             {% endif %}
+
+
+
+      </div>
+     </div>
+</div>
+
+<!-- nutritional details from items -->
+
+<div id="Actualnutritiondetails" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2 class="modal-title">   Nutrition value of {{ qty }} {{ servingUnit }} of {{ useritem }} : <br> </h2>
+             {% if calIntake  %}
+                <h4> Calories     :   {{ calIntake }} calories !</h4>
+                <h4> Protiens     : {{ proIntake }}grams </h4>
+              <!--  <h4> Protien upper Limit {{ pro_u }}grams </h4>-->
+                <h4> Carbohydrates :  {{ carbsIntake }} grams </h4>
+
+                <h4>Fats : {{ fatsIntake }} grams </h4>
+             {% else  %}
+                <h4>Please fill  in your  details!</h4>
+             {% endif %}
 
 
 

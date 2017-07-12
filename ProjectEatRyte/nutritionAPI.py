@@ -25,17 +25,24 @@ def getNutritionfacts(useritem,userBrand,userquantity,usermealtype):
             print (r2)
             if(r2['foods'][0]["food_name"]==itemName):
                     print("-------------------------------------------------")
+                    qty = r2['foods'][0]["serving_qty"]
+                    servingUnit =r2['foods'][0]["serving_unit"]
                     print(r2['foods'][0]["serving_qty"])
                     print("Calories")
                     print(r2["foods"][0]["nf_calories"])
+                    cal =  r2["foods"][0]["nf_calories"]
                     print("Fat")
                     print(r2['foods'][0]["nf_total_fat"])
+                    fat =  r2['foods'][0]["nf_total_fat"]
                     print("Sugars")
                     print(r2['foods'][0]["nf_sugars"])
                     print("Protein")
                     print(r2['foods'][0]["nf_protein"])
+                    pro = r2['foods'][0]["nf_protein"]
                     print("Carbohydrates")
                     print(r2['foods'][0]["nf_total_carbohydrate"])
+                    carb= r2['foods'][0]["nf_total_carbohydrate"]
+                    return [cal,pro,carb,fat,qty,servingUnit]
         elif(usermealtype=="branded"):
             print("branded")
             itemName = r[item][0]["food_name"]
