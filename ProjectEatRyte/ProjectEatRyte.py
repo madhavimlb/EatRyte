@@ -53,12 +53,33 @@ def enterNutritionDetails():
 def getNutrtion():
     print('inside get nutrition')
     if request.method=='POST':
+        print('mlmlmlmlmlmlmlmlml')
         useritem = request.form.get('itemName')
-        userBrand=request.form.get('brand')
-        userquantity = request.form.get('quantity')
-        usermealtype= request.form['usermealtype']
-        nutritionValList = getNutritionfacts(useritem ,userBrand, userquantity,usermealtype)
-        return render_template('Main.html',calIntake=nutritionValList[0],proIntake=nutritionValList[1],carbsIntake=nutritionValList[2],fatsIntake=nutritionValList[3],useritem=useritem,qty=nutritionValList[4],servingUnit=nutritionValList[5])
+        print(useritem)
+        itemStr = request.form.get('itemStr')
+        print(itemStr)
+        if(useritem ):
+            print("inside if")
+            nutritionValList = getNutritionfacts(useritem)
+            return render_template('Main.html', calIntake=nutritionValList[0], proIntake=nutritionValList[1],
+                                   carbsIntake=nutritionValList[2], fatsIntake=nutritionValList[3], useritem=useritem,
+                                   qty=nutritionValList[4], servingUnit=nutritionValList[5])
+
+
+        elif(itemStr):
+            print("inside elif")
+            print(itemStr)
+            nutritionValdict = getNutritionfactsForPlainText(itemStr)
+            print(nutritionValdict)
+            #return render_template('Main.html',calIntake=nutritionValList[0],proIntake=nutritionValList[1],carbsIntake=nutritionValList[2],fatsIntake=nutritionValList[3],useritem=useritem,qty=nutritionValList[4],servingUnit=nutritionValList[5])
+            return render_template('Main.html',nutritionValdict=nutritionValdict)
+@app.route('/getItemName', methods=['POST','GET'])
+def getNutritionforAutocomplete():
+    print('mlmlmlmlmlmlmlmlml')
+    useritem = request.form.get('itemName')
+    itemList = getNutritionfactswithAutocomplete(useritem)
+    return render_template("enterLunch.html",itemList=itemList)
+
 
 if __name__ == '__main__':
     app.debug = True

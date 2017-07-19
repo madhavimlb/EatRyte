@@ -55,8 +55,8 @@
       <li class="active"><a href="#" data-toggle="modal" data-target="#Actualnutritiondetails" >My Dash Board</a></li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Today's meal <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a data-toggle="modal" data-target="#mealModal">Breakfast</a></li>
-          <li><a href="#">Lunch</a></li>
+          <li><a data-toggle="modal" data-target="#mealModalB">Breakfast</a></li>
+          <li><a data-toggle="modal" data-target="#mealModalL">Lunch</a></li>
           <li><a href="#">Dinner</a></li>
           <li><a href="#">Others</a></li>
         </ul>
@@ -69,7 +69,7 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
       <li><a href="#" data-toggle="modal" data-target="#nutritiondetails"><span class="glyphicon glyphicon-user"></span> My Details</a></li>
-          <li><a href="#" class="btn btn-info btn-lg" data-toggle="modal" data-target="#mynutritiondetails">My Nutrition Requirements</a></li>
+          <li><a href="#"  data-toggle="modal" data-target="#mynutritiondetails">My Nutrition Requirements</a></li>
       <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
 
@@ -79,7 +79,7 @@
 </nav>
 
 <!-- SIGNUP MODAL -->
-    <div id="mealModal" class="modal fade" role="dialog">
+    <div id="mealModalB" class="modal fade" role="dialog">
       <div class="modal-dialog modal-sm">
         <!-- Modal content-->
         <div class="modal-content">
@@ -113,9 +113,9 @@
                 <label class="sr-only" for="quantity" >Quantity</label>
                 <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Enter the quantity with units.Eg.1 cup/1 slice/">
               </div>
-
-               <TEXTAREA id="area" style="display: none;" name="data" ROWS=10 COLS=50 placeholder="1 cup flour, 1 pinch of salt, and 1 cup butter"></TEXTAREA>
-
+<div>
+               <TEXTAREA id="area" style="display: none;" name="itemStr" ROWS=10 COLS=50 placeholder="1 cup flour, 1 pinch of salt, and 1 cup butter"></TEXTAREA>
+</div>
               <button type="submit" class="btn btn-info ">Add to meal</button>
 
             </form>
@@ -125,6 +125,27 @@
     </div>
     <!-- SIGNUP MODAL END -->
 
+<!-- lunch modal-->
+<div id="mealModalL" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Enter your meal</h4>
+          </div>
+          <div class="modal-body">
+          <form role="Enter Meal" action = "http://127.0.0.1:5000/getNutrition" method="post">
+          <div class="form-group">
+                <label class="sr-only" for="itemName" >item Name</label>
+                <input type="text"  id="brand" name="itemName"  placeholder="Enter the item name">
+              </div>
+                 <button type="submit" class="btn btn-info ">Get the nutrition values</button>
+          </form>
+          </div>
+        </div>
+      </div>
+</div>
 
 <!--  nutritiondetails modal start-->
 <div id="nutritiondetails" class="modal fade" role="dialog">
@@ -187,24 +208,32 @@
       </div>
      </div>
 </div>
-
 <!-- nutritional details from items -->
 
 <div id="Actualnutritiondetails" class="modal fade" role="dialog">
   <div class="modal-dialog">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h2 class="modal-title">   Nutrition value of {{ qty }} {{ servingUnit }} of {{ useritem }} : <br> </h2>
-             {% if calIntake  %}
-                <h4> Calories     :   {{ calIntake }} calories !</h4>
-                <h4> Protiens     : {{ proIntake }}grams </h4>
+        {% if calIntake  %}
+            <h2 class="modal-title">   Nutrition value of {{ qty }} {{ servingUnit }} of {{ useritem }} : <br> </h2>
+            <h4> Calories     :   {{ calIntake }} calories !</h4>
+            <h4> Protiens     : {{ proIntake }}grams </h4>
               <!--  <h4> Protien upper Limit {{ pro_u }}grams </h4>-->
-                <h4> Carbohydrates :  {{ carbsIntake }} grams </h4>
+            <h4> Carbohydrates :  {{ carbsIntake }} grams </h4>
+            <h4>Fats : {{ fatsIntake }} grams </h4>
+        {% elif nutritionValdict %}
+            {% for key in nutritionValdict %}
+                <h2 class="modal-title">   Nutrition value of {{ nutritionValdict[key][4] }} {{ nutritionValdict[key][5] }} of {{ key }} : <br> </h2>
+                 <h4> Calories     :   {{ nutritionValdict[key][0] }} calories !</h4>
+                <h4> Protiens     : {{ nutritionValdict[key][1] }}grams </h4>
+                <!--  <h4> Protien upper Limit {{ pro_u }}grams </h4>-->
+                <h4> Carbohydrates :  {{ nutritionValdict[key][2] }} grams </h4>
+                <h4>Fats : {{ nutritionValdict[key][3] }} grams </h4>
+            {% endfor %}
+        {% else  %}
+            <h4>Please fill  in your  details!</h4>
+        {% endif %}
 
-                <h4>Fats : {{ fatsIntake }} grams </h4>
-             {% else  %}
-                <h4>Please fill  in your  details!</h4>
-             {% endif %}
 
 
 

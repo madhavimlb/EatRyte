@@ -1,0 +1,36 @@
+<div id="mealModalL" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Enter your meal</h4>
+          </div>
+          <div class="modal-body">
+          <form role="Enter Meal" action = "http://127.0.0.1:5000/getItemName" method="post">
+          <div class="form-group">
+                <label class="sr-only" for="itemName" >item Name</label>
+                <input type="text"  id="brand" name="itemName"  placeholder="Enter the item name">
+              </div>
+                 <button type="submit" class="btn btn-info ">Get all items</button>
+          </form>
+          </div>
+        </div>
+      </div>
+                {% if itemList %}
+
+                    <h2 class="modal-title">  Your Nutrition Requirements (per day) : <br> </h2>
+
+
+                            {% for key in itemList %}
+
+                            <ul class="list-group">
+                                <li class="list-group-item">{{ key }}</li>
+
+                            </ul>
+
+                            {% endfor %}
+
+
+                {% endif %}
+</div>
