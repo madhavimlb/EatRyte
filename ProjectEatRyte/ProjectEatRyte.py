@@ -4,16 +4,51 @@ from flask import flash
 from nutritionAPI import *
 from flask_wtf.csrf import CSRFProtect
 from calculateActualNutrition import *
-
+from flask import Flask, render_template, redirect, url_for, request
+from flaskext.mysql import MySQL
+import time
 
 app = Flask(__name__)
-
-global index
+mysql = MySQL()
+# MySQL configurations
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_DB'] = 'EatRyte'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+mysql.init_app(app)
+global username
+global  userid
 
 @app.route('/')
 def homepage():
     print('inside static page')
     return render_template('index.html')
+
+
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    cur = mysql.connect().cursor()
+    cur.execute('SELECT email FROM EatRyte.users')
+    useremaildb = cur.fetchone()
+    cur.execute('SELECT pwdhash FROM EatRyte.users')
+    userpwdb = cur.fetchone()
+    cur.execute('SELECT uid FROM EatRyte.users')
+    userid = cur.fetchone()
+    print('email' )
+    print(useremaildb)
+    print( userpwdb)
+
+
+    if request.method == 'POST':
+        if request.form['email'] != useremaildb or request.form['password'] != 'userpwdb':
+            error = 'Invalid Credentials. Please try again.'
+            print(error)
+        else:
+            return redirect(url_for('home'))
+    return render_template('main.html', error=error)
 
 
 @app.route('/enterNutriDetails',methods=['POST'])
@@ -56,14 +91,24 @@ def getNutrtion():
         print('mlmlmlmlmlmlmlmlml')
         useritem = request.form.get('itemName')
         print(useritem)
+        quant = request.form.get('quantity')
+        quan =float(quant.split());
+        quantity = quan[0]
+        servingUnit = quan[1]
+        foodIntakelist=["Breakfast",useritem,quantity,servingUnit]
+        print(quan)
         itemStr = request.form.get('itemStr')
         print(itemStr)
+        time.strftime("%H:%M:%S")
+        cur = mysql.connect().cursor()
+        cur.execute("INSERT INTO EatRyte.Meal ('type','item','quantity','servingUnit','userId','date') VALUES ('Breakfast', useritem, quantity,servingUnit,userid,);")
+        useremaildb = cur.fetchone()
         if(useritem ):
             print("inside if")
-            nutritionValList = getNutritionfacts(useritem)
+            nutritionValList = getNutritionfacts(useritem,quant)
             return render_template('Main.html', calIntake=nutritionValList[0], proIntake=nutritionValList[1],
                                    carbsIntake=nutritionValList[2], fatsIntake=nutritionValList[3], useritem=useritem,
-                                   qty=nutritionValList[4], servingUnit=nutritionValList[5])
+                                   qty=nutritionValList[4], servingUnit=nutritionValList[5],foodIntakelist=foodIntakelist)
 
 
         elif(itemStr):

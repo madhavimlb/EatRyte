@@ -193,7 +193,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h2 class="modal-title">  Your Nutrition Requirements (per day) : <br> </h2>
              {% if cal and  pro_l and pro_u and  carbs_l and carbs_u and fats%}
-                <h4> Calories     :   {{ cal }} calories !</h4>
+                <h4> Calories     :   {{ cal }} calories </h4>
                 <h4> Protiens     : {{ pro_l  }} - {{ pro_u }} grams </h4>
               <!--  <h4> Protien upper Limit {{ pro_u }}grams </h4>-->
                 <h4> Carbohydrates :  {{ carbs_l }} - {{ carbs_u }} grams </h4>
@@ -216,7 +216,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         {% if calIntake  %}
             <h2 class="modal-title">   Nutrition value of {{ qty }} {{ servingUnit }} of {{ useritem }} : <br> </h2>
-            <h4> Calories     :   {{ calIntake }} calories !</h4>
+            <h4> Calories     :   {{ calIntake }} calories </h4>
             <h4> Protiens     : {{ proIntake }}grams </h4>
               <!--  <h4> Protien upper Limit {{ pro_u }}grams </h4>-->
             <h4> Carbohydrates :  {{ carbsIntake }} grams </h4>
@@ -224,7 +224,7 @@
         {% elif nutritionValdict %}
             {% for key in nutritionValdict %}
                 <h2 class="modal-title">   Nutrition value of {{ nutritionValdict[key][4] }} {{ nutritionValdict[key][5] }} of {{ key }} : <br> </h2>
-                 <h4> Calories     :   {{ nutritionValdict[key][0] }} calories !</h4>
+                 <h4> Calories     :   {{ nutritionValdict[key][0] }} calories </h4>
                 <h4> Protiens     : {{ nutritionValdict[key][1] }}grams </h4>
                 <!--  <h4> Protien upper Limit {{ pro_u }}grams </h4>-->
                 <h4> Carbohydrates :  {{ nutritionValdict[key][2] }} grams </h4>
@@ -250,11 +250,76 @@
     <li><a href="#">June-24-2017</a></li>
   </ul>
 </div>
-<input type="text" id="breakfast" class="form-control" placeholder=" Work In Progress...">
-<input type="text" id="lunch" class="form-control" placeholder="Work In Progress...">
-<input type="text" id="dinner" class="form-control" placeholder="Work In Progress...">
-<input type="text" id="Other" class="form-control" placeholder="Work In Progress...">
-<i class="fa fa-sticky-note" aria-hidden="true"></i>
+<br>
+<br>
+<br>
+<br>
+<section class="bg-grey-50 padding-top-60 padding-top-sm-30">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-sm-4 hidden-xs" >
+        <div class="widget">
+          <div class="panel panel-default">
+            <div class="panel-heading">Breakfast</div>
+            <div class="panel-body">
+              <ul class="panel-list margin-top-1">
+                <li><i class="glyphicon glyphicon-pencil"></i>Info1</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-4 hidden-xs">
+        <div class="widget">
+          <div class="panel panel-default">
+            <div class="panel-heading">Lunch</div>
+            <div class="panel-body">
+              <ul class="panel-list margin-top-1">
+                <li><i class="glyphicon glyphicon-pencil"></i>Info2</li>
+                <li><i class="fa fa-graduation-cap"></i>Info2</li>
+                <li><i class="fa fa-warning"></i>Info2</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+          <div class="col-md-3 col-sm-4 hidden-xs">
+        <div class="widget">
+          <div class="panel panel-default">
+            <div class="panel-heading">Dinner</div>
+            <div class="panel-body">
+              <ul class="panel-list margin-top-1">
+                <li><i class="glyphicon glyphicon-pencil"></i>Info1</li>
+                <li><i class="fa fa-graduation-cap"></i>Info1</li>
+                <li><i class="fa fa-warning"></i>Info1</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+             <div class="col-md-3 col-sm-4 hidden-xs">
+        <div class="widget">
+          <div class="panel panel-default">
+            <div class="panel-heading">Others</div>
+            <div class="panel-body">
+              <ul class="panel-list margin-top-1">
+                <li><i class="glyphicon glyphicon-pencil"></i>Info1</li>
+                <li><i class="fa fa-graduation-cap"></i>Info1</li>
+                <li><i class="fa fa-warning"></i>Info1</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</section>
+
+
 
 </body>
 </html>

@@ -64,7 +64,7 @@ def getNutritionfacts_old(useritem,userBrand,userquantity,usermealtype):
 
 
 
-def getNutritionfacts(userItem):
+def getNutritionfacts(userItem,quant):
         content_type_header = "application/json"
         APPID = "3e521ea4"
         APPKEY = "5d77a59b4d71536cc2d42aaaa8b36c22"
@@ -73,6 +73,13 @@ def getNutritionfacts(userItem):
         headers= {'Content-Type': content_type_header, 'X-APP-ID': APPID, 'X-APP-KEY': APPKEY}
         response = requests.post(url2, headers=headers,data=json.dumps(formdata))
         print("outside if in get getNutritionfacts()")
+        quan=quant.split()
+        print("--------------type- quantity -----------")
+
+        quantity = float(quan[0])
+        print(type(quantity))
+        errorMsg='Please enter valid serving unip'
+
         r2 = json.loads(response.text)
         print(r2)
         for each in r2:
@@ -81,25 +88,32 @@ def getNutritionfacts(userItem):
             print(type(userItem))
             if (str.lower(r2['foods'][0]['food_name'])== str.lower(userItem)):
 
-                print("-------------------------------------------------")
+                print("--------------------ppppppppp-----------------------------")
                 qty = r2['foods'][0]["serving_qty"]
                 servingUnit = r2['foods'][0]["serving_unit"]
-                print(r2['foods'][0]["serving_qty"])
-                print("Calories")
-                print(r2["foods"][0]["nf_calories"])
-                cal = r2["foods"][0]["nf_calories"]
-                print("Fat")
-                print(r2['foods'][0]["nf_total_fat"])
-                fat = r2['foods'][0]["nf_total_fat"]
-                print("Sugars")
-                print(r2['foods'][0]["nf_sugars"])
-                print("Protein")
-                print(r2['foods'][0]["nf_protein"])
-                pro = r2['foods'][0]["nf_protein"]
-                print("Carbohydrates")
-                print(r2['foods'][0]["nf_total_carbohydrate"])
-                carb = r2['foods'][0]["nf_total_carbohydrate"]
-        return [cal, pro, carb, fat, qty, servingUnit]
+                if(servingUnit==quan[1]):
+                    print(r2['foods'][0]["serving_qty"])
+                    print("Calories")
+                    print(r2["foods"][0]["nf_calories"])
+                    cal = (r2["foods"][0]["nf_calories"] )
+
+                    print(type(cal))
+                    cal = cal * quantity
+                    print(type(cal))
+                    print("Fat")
+                    print(r2['foods'][0]["nf_total_fat"])
+                    fat = (r2['foods'][0]["nf_total_fat"]) *quantity
+                    print("Sugars")
+                    print(r2['foods'][0]["nf_sugars"])
+                    print("Protein")
+                    print(r2['foods'][0]["nf_protein"])
+                    pro = (r2['foods'][0]["nf_protein"]) * quantity
+                    print("Carbohydrates")
+                    print(r2['foods'][0]["nf_total_carbohydrate"])
+                    carb = (r2['foods'][0]["nf_total_carbohydrate"]) * quantity
+                else:
+                    return errorMsg
+            return [cal, pro, carb, fat, qty, servingUnit]
 
 
 def getNutritionfactsForPlainText(userItem):
