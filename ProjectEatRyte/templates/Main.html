@@ -262,9 +262,19 @@
           <div class="panel panel-default">
             <div class="panel-heading">Breakfast</div>
             <div class="panel-body">
-              <ul class="panel-list margin-top-1">
-                <li><i class="glyphicon glyphicon-pencil"></i>Info1</li>
-              </ul>
+                {% if  data is defined %}
+                    {% for x in data %}
+                        <ul class="panel-list margin-top-1">
+                            <li><i class="glyphicon glyphicon-pencil"></i>{{   x[0] }}- {{  x[1] }} {{ x[2] }}</li>
+                        </ul>
+                    {% endfor %}
+                 {% elif dataFromspecificMeal is defined %}
+                    {% for x in dataFromspecificMeal %}
+                        <ul class="panel-list margin-top-1">
+                            <li><i class="glyphicon glyphicon-pencil"></i>{{   x[0] }}- {{  x[1] }} {{ x[2] }}</li>
+                        </ul>
+                    {% endfor %}
+                {% endif %}
             </div>
           </div>
         </div>

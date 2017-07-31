@@ -91,28 +91,28 @@ def getNutritionfacts(userItem,quant):
                 print("--------------------ppppppppp-----------------------------")
                 qty = r2['foods'][0]["serving_qty"]
                 servingUnit = r2['foods'][0]["serving_unit"]
-                if(servingUnit==quan[1]):
-                    print(r2['foods'][0]["serving_qty"])
-                    print("Calories")
-                    print(r2["foods"][0]["nf_calories"])
-                    cal = (r2["foods"][0]["nf_calories"] )
+               # if(servingUnit==quan[1]):
+                print(r2['foods'][0]["serving_qty"])
+                print("Calories")
+                print(r2["foods"][0]["nf_calories"])
+                cal = (r2["foods"][0]["nf_calories"] )
 
-                    print(type(cal))
-                    cal = cal * quantity
-                    print(type(cal))
-                    print("Fat")
-                    print(r2['foods'][0]["nf_total_fat"])
-                    fat = (r2['foods'][0]["nf_total_fat"]) *quantity
-                    print("Sugars")
-                    print(r2['foods'][0]["nf_sugars"])
-                    print("Protein")
-                    print(r2['foods'][0]["nf_protein"])
-                    pro = (r2['foods'][0]["nf_protein"]) * quantity
-                    print("Carbohydrates")
-                    print(r2['foods'][0]["nf_total_carbohydrate"])
-                    carb = (r2['foods'][0]["nf_total_carbohydrate"]) * quantity
-                else:
-                    return errorMsg
+                print(type(cal))
+                cal = cal * quantity
+                print(type(cal))
+                print("Fat")
+                print(r2['foods'][0]["nf_total_fat"])
+                fat = (r2['foods'][0]["nf_total_fat"]) *quantity
+                print("Sugars")
+                print(r2['foods'][0]["nf_sugars"])
+                print("Protein")
+                print(r2['foods'][0]["nf_protein"])
+                pro = (r2['foods'][0]["nf_protein"]) * quantity
+                print("Carbohydrates")
+                print(r2['foods'][0]["nf_total_carbohydrate"])
+                carb = (r2['foods'][0]["nf_total_carbohydrate"]) * quantity
+                #else:
+                    #return errorMsg
             return [cal, pro, carb, fat, qty, servingUnit]
 
 

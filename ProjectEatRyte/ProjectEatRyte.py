@@ -17,14 +17,12 @@ app.config['MYSQL_DATABASE_DB'] = 'EatRyte'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 global username
-global  userid
+global userid
 
 @app.route('/')
 def homepage():
     print('inside static page')
     return render_template('index.html')
-
-
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -54,6 +52,8 @@ def login():
 @app.route('/enterNutriDetails',methods=['POST'])
 def enterNutritionDetails():
     print('okokokokoko')
+    conn = mysql.get_db()
+    cur = conn.cursor()
     if request.method == 'POST':
         index=1
         sex = request.form.get('sex')
@@ -83,41 +83,77 @@ def enterNutritionDetails():
         fats = nutrition.calculateFasNeeds()
         print("fats :  %f" % fats)
         #Session["Calories"] = cal
+        conn = mysql.get_db()
+        cur = conn.cursor()
+        cur.execute("INSERT INTO  `RequiredNutrition` (`userId`,`cal`,`pro_l`,`pro_u`,`carbs_l`,`carbs_u`,`fats`) VALUES (1001,%s,%s,%s,%s,%s,%s );",(cal, pro_l, pro_u,carbs_l,carbs_u, fats))
+        data_nutriInfo = cur.fetchall()
+        conn.commit()
+
         return render_template('Main.html',cal=cal,pro_l=pro_l,pro_u=pro_u,carbs_u=carbs_u,carbs_l=carbs_l,fats=fats)
 @app.route('/getNutrition', methods=['POST'])
 def getNutrtion():
     print('inside get nutrition')
     if request.method=='POST':
-        print('mlmlmlmlmlmlmlmlml')
         useritem = request.form.get('itemName')
         print(useritem)
-        quant = request.form.get('quantity')
-        quan =float(quant.split());
-        quantity = quan[0]
-        servingUnit = quan[1]
-        foodIntakelist=["Breakfast",useritem,quantity,servingUnit]
-        print(quan)
         itemStr = request.form.get('itemStr')
         print(itemStr)
-        time.strftime("%H:%M:%S")
-        cur = mysql.connect().cursor()
-        cur.execute("INSERT INTO EatRyte.Meal ('type','item','quantity','servingUnit','userId','date') VALUES ('Breakfast', useritem, quantity,servingUnit,userid,);")
-        useremaildb = cur.fetchone()
+        today =time.strftime('%Y-%m-%d')
+        conn = mysql.get_db()
+        cur = conn.cursor()
+
+
         if(useritem ):
+            quant = request.form.get('quantity')
+            quan = quant.split();
+            quantity = float(quan[0])
+            servingUnit = quan[1]
+            foodIntakelist_current = ["Breakfast", useritem, quantity, servingUnit]
+            print(quan)
+            cur.execute("INSERT INTO  `Mealinfo` (`type`,`item`,`quantity`,`servingUnit`,`userId`,`date`) VALUES ('Breakfast',%s,%s,%s,%s,%s );",(useritem, quantity, servingUnit, 1001, today))
+            #cur.execute("SELECT `item` , `quantity`,`servingUnit` FROM `Mealinfo` WHERE userId=1001")
+            data = cur.fetchall()
+            conn.commit()
+            useremaildb = cur.fetchone()
+            print(type(data))
+            print("--------------------@@@@@@@@@@@@@")
+            print(data)
             print("inside if")
             nutritionValList = getNutritionfacts(useritem,quant)
+            calIntake=nutritionValList[0]
+            proIntake = nutritionValList[1]
+            carbsIntake = nutritionValList[2]
+            fatsIntake = nutritionValList[3]
+            cur.execute("SELECT `calories`,`fats`,`carbohydrates`,`protien`,`date` FROM `NutritionInfo` WHERE `userId`=1001 and `date` ="+today)
+            data_nutriInfo = cur.fetchall()
+            print("dat nutri info !!!!!")
+            print(data_nutriInfo)
+            print(len(data_nutriInfo))
+            print("----------inside else !!!!!  ")
+            cur.execute("INSERT INTO  `NutritionInfo` (`userId`,`type`,`calories`,`fats`,`carbohydrates`,`protien`,`date`) VALUES (1001,'Breakfast',%s,%s,%s,%s,%s );",(calIntake,fatsIntake,carbsIntake,proIntake,today))
+            data = cur.fetchall()
+            conn.commit()
             return render_template('Main.html', calIntake=nutritionValList[0], proIntake=nutritionValList[1],
                                    carbsIntake=nutritionValList[2], fatsIntake=nutritionValList[3], useritem=useritem,
-                                   qty=nutritionValList[4], servingUnit=nutritionValList[5],foodIntakelist=foodIntakelist)
+                                   qty=nutritionValList[4], servingUnit=nutritionValList[5],data=data)
 
 
         elif(itemStr):
             print("inside elif")
             print(itemStr)
             nutritionValdict = getNutritionfactsForPlainText(itemStr)
+            for key in nutritionValdict:
+                item=key
+                quan = nutritionValdict[key][4]
+                servingUnit = nutritionValdict[key][5]
+                cur.execute("INSERT INTO  `Mealinfo` (`type`,`item`,`quantity`,`servingUnit`,`userId`,`date`) VALUES ('Breakfast',%s,%s,%s,%s,%s );",
+                    (item, quan, servingUnit, 1001, today))
+            cur.execute("SELECT `item` , `quantity`,`servingUnit` FROM `Mealinfo` WHERE userId=1001")
+            data = cur.fetchall()
+            conn.commit()
             print(nutritionValdict)
             #return render_template('Main.html',calIntake=nutritionValList[0],proIntake=nutritionValList[1],carbsIntake=nutritionValList[2],fatsIntake=nutritionValList[3],useritem=useritem,qty=nutritionValList[4],servingUnit=nutritionValList[5])
-            return render_template('Main.html',nutritionValdict=nutritionValdict)
+            return render_template('Main.html',nutritionValdict=nutritionValdict,dataFromspecificMeal=data)
 @app.route('/getItemName', methods=['POST','GET'])
 def getNutritionforAutocomplete():
     print('mlmlmlmlmlmlmlmlml')
