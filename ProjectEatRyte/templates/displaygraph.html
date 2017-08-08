@@ -1,0 +1,217 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <title>Main Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: "Calories (cal)"
+                },
+
+                data: [  //array of dataSeries
+                    { //dataSeries - first quarter
+                        /*** Change type "column" to "bar", "area", "line" or "pie"***/
+                        type: "column",
+                        name: "Actual Nutrition",
+                        showInLegend: true,
+                        dataPoints: [
+                            {label: "Calories ", y: {{ total_cal }}}
+
+                        ]
+                    },
+                    { //dataSeries - second quarter
+
+                        type: "column",
+                        name: "Required Nutrition",
+                        showInLegend: true,
+                        dataPoints: [
+                            {label: "Calories ", y: {{reqCal}}}
+
+
+                        ]
+                    }
+                ]
+            });
+
+            chart.render();
+
+
+            var chart = new CanvasJS.Chart("chartContainer2", {
+                title: {
+                    text: "Fats (Grams)"
+                },
+
+                data: [  //array of dataSeries
+                    { //dataSeries - first quarter
+                        /*** Change type "column" to "bar", "area", "line" or "pie"***/
+                        type: "column",
+                        name: "Actual Nutrition",
+                        showInLegend: true,
+                        dataPoints: [
+                            {label: "Fats", y: {{ total_fats }}}
+
+                        ]
+                    },
+                    { //dataSeries - second quarter
+
+                        type: "column",
+                        name: "Required Nutrition",
+                        showInLegend: true,
+                        dataPoints: [
+                            {label: "Fats", y: {{req_fats}}}
+
+
+                        ]
+                    }
+                ]
+            });
+
+            chart.render();
+
+
+            var chart = new CanvasJS.Chart("chartContainer3", {
+                title: {
+                    text: "Carbohydrates (Grams) "
+                },
+
+                data: [  //array of dataSeries
+                    { //dataSeries - first quarter
+                        /*** Change type "column" to "bar", "area", "line" or "pie"***/
+                        type: "column",
+                        name: "Actual Nutrition",
+                        showInLegend: true,
+                        dataPoints: [
+                            {label: "Carbs", y: {{ total_carbs }}}
+
+                        ]
+                    },
+                    { //dataSeries - second quarter
+
+                        type: "column",
+                        name: "Required Nutrition",
+                        showInLegend: true,
+                        dataPoints: [
+                            {label: "Carbs", y: {{req_carbs}}}
+
+
+                        ]
+                    }
+                ]
+            });
+
+            chart.render();
+
+
+            var chart = new CanvasJS.Chart("chartContainer4", {
+                title: {
+                    text: "Protiens (Grams) "
+                },
+
+                data: [  //array of dataSeries
+                    { //dataSeries - first quarter
+                        /*** Change type "column" to "bar", "area", "line" or "pie"***/
+                        type: "column",
+                        name: "Actual Nutrition",
+                        showInLegend: true,
+                        dataPoints: [
+                            {label: "Protiens", y: {{ total_pro }}}
+
+                        ]
+                    },
+                    { //dataSeries - second quarter
+
+                        type: "column",
+                        name: "Required Nutrition",
+                        showInLegend: true,
+                        dataPoints: [
+                            {label: "Protiens", y: {{req_pro}}}
+
+
+                        ]
+                    }
+                ]
+            });
+
+            chart.render();
+
+
+        }
+
+
+    </script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="http://127.0.0.1:5000/login">Home</a></li>
+
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Go</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" data-toggle="modal" data-target="#mynutritiondetails">My Nutrition Requirements</a></li>
+                <li><a data-toggle="modal" data-target="#mynutritiondetails"></a></li>
+                <li><a href="#" data-toggle="modal" data-target="#logOut"><span
+                        class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+
+        </ul>
+
+    </div>
+</nav>
+<div id="chartContainer" style="height: 300px; width: 50%;">
+</div>
+
+<div id="chartContainer2" style="height: 300px; width: 50%;">
+
+</div>
+
+
+<div id="chartContainer3" style="height: 300px; width: 50%;">
+
+</div>
+
+
+
+
+<!--nutritiondetails modal end -->
+<div id="mynutritiondetails" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h2 class="modal-title"> Your Nutrition Requirements (per day) : <br></h2>
+            {% if cal and  pro_l and pro_u and  carbs_l and carbs_u and fats %}
+                <h4> Calories : {{ cal }} calories </h4>
+                <h4> Protiens : {{ pro_l }} - {{ pro_u }} grams </h4>
+                <!--  <h4> Protien upper Limit {{ pro_u }}grams </h4>-->
+                <h4> Carbohydrates : {{ carbs_l }} - {{ carbs_u }} grams </h4>
+                <!-- <h4> carbs upper Limit {{ carbs_u }}grams </h4>-->
+                <h4>Fats : {{ fats }} grams </h4>
+            {% else %}
+                <h4>Please fill in your details!</h4>
+            {% endif %}
+
+
+        </div>
+    </div>
+</div>
+<!-- nutritional details from items  -->
+
+
+</body>
+</html>

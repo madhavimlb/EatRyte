@@ -40,11 +40,19 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
-    #mealModal .modal-dialog  {width:75%;}
+    #mealModal.modal-dialog  {width:75%;}
     </style>
      <script type="text/javascript">
-        function show() { document.getElementById('area').style.display = 'block'; }
-        function hide() { document.getElementById('brand').style.display = 'none'; }
+        function show() { console.log("inside show");document.getElementById('area').style.display = 'block'; }
+        function showL() { console.log("inside showL");document.getElementById('areaL').style.display = 'block'; }
+        function showD() { console.log("inside showD");document.getElementById('areaD').style.display = 'block'; }
+        function showO() { console.log("inside showLO");document.getElementById('areaO').style.display = 'block'; }
+
+        function hide() { console.log("inside hide"); document.getElementById('brand').style.display = 'none';  }
+        function hideL() { console.log("inside hideL"); document.getElementById('brandL').style.display = 'none';  }
+        function hideD() { console.log("inside hideD"); document.getElementById('brandD').style.display = 'none';  }
+        function hideO() { console.log("inside hideO"); document.getElementById('brandO').style.display = 'none';  }
+
       </script>
 </head>
 <body>
@@ -52,13 +60,13 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#" data-toggle="modal" data-target="#Actualnutritiondetails" >My Dash Board</a></li>
+      <li class="active"><a href="http://127.0.0.1:5000/mydashboard" >My Dash Board</a></li>
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Today's meal <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a data-toggle="modal" data-target="#mealModalB">Breakfast</a></li>
           <li><a data-toggle="modal" data-target="#mealModalL">Lunch</a></li>
-          <li><a href="#">Dinner</a></li>
-          <li><a href="#">Others</a></li>
+          <li><a data-toggle="modal" data-target="#mealModalD">Dinner</a></li>
+          <li><a data-toggle="modal" data-target="#mealModalO">Others</a></li>
         </ul>
       </li>
       <form class="navbar-form navbar-left">
@@ -70,6 +78,7 @@
       <ul class="nav navbar-nav navbar-right">
       <li><a href="#" data-toggle="modal" data-target="#nutritiondetails"><span class="glyphicon glyphicon-user"></span> My Details</a></li>
           <li><a href="#"  data-toggle="modal" data-target="#mynutritiondetails">My Nutrition Requirements</a></li>
+          <li><a data-toggle="modal" data-target="#mynutritiondetails">Welcome {{ username }}</a></li>
       <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
 
@@ -78,17 +87,19 @@
   </div>
 </nav>
 
-<!-- SIGNUP MODAL -->
+<!-- Breakfast model MODAL -->
     <div id="mealModalB" class="modal fade" role="dialog">
       <div class="modal-dialog modal-sm">
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Enter your meal</h4>
+            <h4 class="modal-title">Enter your meal for breakfast</h4>
           </div>
           <div class="modal-body">
           <form role="Enter Meal" action = "http://127.0.0.1:5000/getNutrition" method="post">
+              <input type="hidden" name="mealType" value="Breakfast">
+
             <div class="radio">
                 <label><input type="radio" checked name="usermealtype" id="branded" onclick="document.getElementById('brand').style.display = 'block';document.getElementById('itemName').style.display = 'block';document.getElementById('quantity').style.display = 'block'; document.getElementById('area').style.display = 'none';" value = "branded">Branded Foods</label>
             </div>
@@ -123,10 +134,115 @@
         </div>
       </div>
     </div>
-    <!-- SIGNUP MODAL END -->
+    <!-- Break fast MODAL END -->
 
-<!-- lunch modal-->
-<div id="mealModalL" class="modal fade" role="dialog">
+
+<!-- Lunch  MODAL -->
+ <div id="mealModalL" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Enter your meal for lunch</h4>
+          </div>
+          <div class="modal-body">
+          <form role="Enter Meal" action = "http://127.0.0.1:5000/getNutrition" method="post">
+              <input type="hidden" name="mealType" value="Lunch">
+
+           <!-- <div class="radio">
+                <label><input type="radio" checked name="usermealtype" id="branded" onclick="document.getElementById('brand').style.display = 'block';document.getElementById('itemName').style.display = 'block';document.getElementById('quantity').style.display = 'block'; document.getElementById('area').style.display = 'none';" value = "branded">Branded Foods</label>
+            </div>
+            !-->
+             <div class="radio">
+                <label><input type="radio" name="usermealtype" id = "commonL" value = "common" onclick="hideL();document.getElementById('itemNameL').style.display = 'block';document.getElementById('quantityL').style.display = 'block'; document.getElementById('areaL').style.display = 'none';">Common Foods</label>
+              </div>
+
+                  <div class="radio">
+                <label><input type="radio" name="usermealtype" id="elaborateTextL" onclick="showL(); document.getElementById('brandL').style.display = 'none'; document.getElementById('quantityL').style.display = 'none';document.getElementById('itemNameL').style.display = 'none';">Enter specific meal</label>
+                </div>
+
+             <div class="form-group">
+                <label class="sr-only" for="item">Item</label>
+                <input type="text" class="form-control" id="itemNameL"  name = "itemName" placeholder="Enter the food item">
+              </div>
+            <div class="form-group">
+                <label class="sr-only" for="brand" >Brand Name</label>
+                <input type="text" class="form-control" id="brandL" name="brand" placeholder="Enter the brand name">
+              </div>
+
+                <div class="form-group">
+                <label class="sr-only" for="quantity" >Quantity</label>
+                <input type="text" class="form-control" id="quantityL" name="quantity" placeholder="Enter the quantity with units.Eg.1 cup/1 slice/">
+              </div>
+<div>
+               <TEXTAREA id="areaL" style="display: none;" name="itemStr" ROWS=10 COLS=50 placeholder="1 cup flour, 1 pinch of salt, and 1 cup butter"></TEXTAREA>
+</div>
+              <button type="submit" class="btn btn-info ">Add to meal</button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- LUNCH MODAL END -->
+
+
+
+<!-- Dinner  MODAL -->
+    <div id="mealModalD" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Enter your meal for dinner</h4>
+          </div>
+          <div class="modal-body">
+          <form role="Enter Meal" action = "http://127.0.0.1:5000/getNutrition" method="post">
+              <input type="hidden" name="mealType" value="Dinner">
+<!--
+            <div class="radio">
+                <label><input type="radio" checked name="usermealtype" id="branded" onclick="document.getElementById('brand').style.display = 'block';document.getElementById('itemName').style.display = 'block';document.getElementById('quantity').style.display = 'block'; document.getElementById('area').style.display = 'none';" value = "branded">Branded Foods</label>
+            </div>
+                   !-->
+             <div class="radio">
+                <label><input type="radio" name="usermealtype" id = "commonD" value = "common" onclick="hideD();document.getElementById('itemNameD').style.display = 'block';document.getElementById('quantityD').style.display = 'block'; document.getElementById('areaD').style.display = 'none';">Common Foods</label>
+              </div>
+
+                  <div class="radio">
+                <label><input type="radio" name="usermealtype" id="elaborateTextD" onclick="showD(); document.getElementById('brandD').style.display = 'none'; document.getElementById('quantityD').style.display = 'none';document.getElementById('itemNameD').style.display = 'none';">Enter specific meal</label>
+                </div>
+
+             <div class="form-group">
+                <label class="sr-only" for="item">Item</label>
+                <input type="text" class="form-control" id="itemNameD"  name = "itemName" placeholder="Enter the food item">
+              </div>
+            <div class="form-group">
+                <label class="sr-only" for="brand" >Brand Name</label>
+                <input type="text" class="form-control" id="brandD" name="brand" placeholder="Enter the brand name">
+              </div>
+
+                <div class="form-group">
+                <label class="sr-only" for="quantity" >Quantity</label>
+                <input type="text" class="form-control" id="quantityD" name="quantity" placeholder="Enter the quantity with units.Eg.1 cup/1 slice/">
+              </div>
+<div>
+               <TEXTAREA id="areaD" style="display: none;" name="itemStr" ROWS=10 COLS=50 placeholder="1 cup flour, 1 pinch of salt, and 1 cup butter"></TEXTAREA>
+</div>
+              <button type="submit" class="btn btn-info ">Add to meal</button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Dinner MODAL END -->
+
+<!-- Others  MODAL -->
+    <div id="mealModalO" class="modal fade" role="dialog">
       <div class="modal-dialog modal-sm">
         <!-- Modal content-->
         <div class="modal-content">
@@ -136,16 +252,45 @@
           </div>
           <div class="modal-body">
           <form role="Enter Meal" action = "http://127.0.0.1:5000/getNutrition" method="post">
-          <div class="form-group">
-                <label class="sr-only" for="itemName" >item Name</label>
-                <input type="text"  id="brand" name="itemName"  placeholder="Enter the item name">
+              <input type="hidden" name="mealType" value="Others">
+<!--
+            <div class="radio">
+                <label><input type="radio" checked name="usermealtype" id="brandedO" onclick="document.getElementById('brandO').style.display = 'block';document.getElementById('itemNameO').style.display = 'block';document.getElementById('quantityO').style.display = 'block'; document.getElementById('areaO').style.display = 'none';" value = "branded">Branded Foods</label>
+            </div>
+
+            -->
+             <div class="radio">
+                <label><input type="radio" name="usermealtype" id = "commonO" value = "common" onclick="hideO();document.getElementById('itemNameO').style.display = 'block';document.getElementById('quantityO').style.display = 'block'; document.getElementById('areaO').style.display = 'none';">Common Foods</label>
               </div>
-                 <button type="submit" class="btn btn-info ">Get the nutrition values</button>
-          </form>
+
+                  <div class="radio">
+                <label><input type="radio" name="usermealtype" id="elaborateTextO" onclick="showO(); document.getElementById('brandO').style.display = 'none'; document.getElementById('quantityO').style.display = 'none';document.getElementById('itemNameO').style.display = 'none';">Enter specific meal</label>
+                </div>
+
+             <div class="form-group">
+                <label class="sr-only" for="item">Item</label>
+                <input type="text" class="form-control" id="itemNameO"  name = "itemName" placeholder="Enter the food item">
+              </div>
+            <div class="form-group">
+                <label class="sr-only" for="brand" >Brand Name</label>
+                <input type="text" class="form-control" id="brandO" name="brand" placeholder="Enter the brand name">
+              </div>
+
+                <div class="form-group">
+                <label class="sr-only" for="quantity" >Quantity</label>
+                <input type="text" class="form-control" id="quantityO" name="quantity" placeholder="Enter the quantity with units.Eg.1 cup/1 slice/">
+              </div>
+<div>
+               <TEXTAREA id="areaO" style="display: none;" name="itemStr" ROWS=10 COLS=50 placeholder="1 cup flour, 1 pinch of salt, and 1 cup butter"></TEXTAREA>
+</div>
+              <button type="submit" class="btn btn-info ">Add to meal</button>
+
+            </form>
           </div>
         </div>
       </div>
-</div>
+    </div>
+    <!-- LUNCH MODAL END -->
 
 <!--  nutritiondetails modal start-->
 <div id="nutritiondetails" class="modal fade" role="dialog">
@@ -208,46 +353,29 @@
       </div>
      </div>
 </div>
-<!-- nutritional details from items -->
+<!-- nutritional details from items  -->
+
+<!-- paste here -->
 
 <div id="Actualnutritiondetails" class="modal fade" role="dialog">
   <div class="modal-dialog">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        {% if calIntake  %}
-            <h2 class="modal-title">   Nutrition value of {{ qty }} {{ servingUnit }} of {{ useritem }} : <br> </h2>
-            <h4> Calories     :   {{ calIntake }} calories </h4>
-            <h4> Protiens     : {{ proIntake }}grams </h4>
-              <!--  <h4> Protien upper Limit {{ pro_u }}grams </h4>-->
-            <h4> Carbohydrates :  {{ carbsIntake }} grams </h4>
-            <h4>Fats : {{ fatsIntake }} grams </h4>
-        {% elif nutritionValdict %}
-            {% for key in nutritionValdict %}
-                <h2 class="modal-title">   Nutrition value of {{ nutritionValdict[key][4] }} {{ nutritionValdict[key][5] }} of {{ key }} : <br> </h2>
-                 <h4> Calories     :   {{ nutritionValdict[key][0] }} calories </h4>
-                <h4> Protiens     : {{ nutritionValdict[key][1] }}grams </h4>
-                <!--  <h4> Protien upper Limit {{ pro_u }}grams </h4>-->
-                <h4> Carbohydrates :  {{ nutritionValdict[key][2] }} grams </h4>
-                <h4>Fats : {{ nutritionValdict[key][3] }} grams </h4>
-            {% endfor %}
-        {% else  %}
-            <h4>Please fill  in your  details!</h4>
-        {% endif %}
-
-
+                  <form role="Enter Meal" action = "http://127.0.0.1:5000/mydashboard" method="post">
+                  </form>
 
 
       </div>
      </div>
 </div>
+<!-- paste till here -->
 
 <div class="dropdown" style="width:400px;  border-top-width: thick ; margin:0 auto;">
-  <button class="btn btn-primary dropdown-toggle" id="dropdownmenu" type="button" data-toggle="dropdown">June-27-2017
+  <button class="btn btn-primary dropdown-toggle" id="dropdownmenu" type="button" data-toggle="dropdown">Select a day
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
-    <li><a href="#">June-26-2017</a></li>
-    <li><a href="#">June-25-2017</a></li>
-    <li><a href="#">June-24-2017</a></li>
+    <li><a href="#">Aug-1-2017</a></li>
+    <li><a href="#">July-31-2017</a></li>
+    <li><a href="#">July-30-2017</a></li>
   </ul>
 </div>
 <br>
@@ -262,18 +390,20 @@
           <div class="panel panel-default">
             <div class="panel-heading">Breakfast</div>
             <div class="panel-body">
-                {% if  data is defined %}
-                    {% for x in data %}
+                {% if  data_fromMealInfo_Breakfast  %}
+                    {% for x in data_fromMealInfo_Breakfast %}
                         <ul class="panel-list margin-top-1">
                             <li><i class="glyphicon glyphicon-pencil"></i>{{   x[0] }}- {{  x[1] }} {{ x[2] }}</li>
                         </ul>
                     {% endfor %}
-                 {% elif dataFromspecificMeal is defined %}
-                    {% for x in dataFromspecificMeal %}
+                {% elif dataFromspecificMeal_Breakfast%}
+                    {% for x in dataFromspecificMeal_Breakfast %}
                         <ul class="panel-list margin-top-1">
                             <li><i class="glyphicon glyphicon-pencil"></i>{{   x[0] }}- {{  x[1] }} {{ x[2] }}</li>
                         </ul>
                     {% endfor %}
+                {% else  %}
+                <h4>No Item(S) consumed today</h4>
                 {% endif %}
             </div>
           </div>
@@ -284,11 +414,21 @@
           <div class="panel panel-default">
             <div class="panel-heading">Lunch</div>
             <div class="panel-body">
-              <ul class="panel-list margin-top-1">
-                <li><i class="glyphicon glyphicon-pencil"></i>Info2</li>
-                <li><i class="fa fa-graduation-cap"></i>Info2</li>
-                <li><i class="fa fa-warning"></i>Info2</li>
-              </ul>
+                {% if  data_fromMealInfo_Lunch %}
+                    {% for x in data_fromMealInfo_Lunch %}
+                        <ul class="panel-list margin-top-1">
+                            <li><i class="glyphicon glyphicon-pencil"></i>{{   x[0] }}- {{  x[1] }} {{ x[2] }}</li>
+                        </ul>
+                    {% endfor %}
+                {% elif dataFromspecificMeal_Lunch%}
+                    {% for x in dataFromspecificMeal_Lunch %}
+                        <ul class="panel-list margin-top-1">
+                            <li><i class="glyphicon glyphicon-pencil"></i>{{   x[0] }}- {{  x[1] }} {{ x[2] }}</li>
+                        </ul>
+                    {% endfor %}
+                {% else  %}
+                <h4>No Item(S) consumed today</h4>
+                {% endif %}
             </div>
 
           </div>
@@ -298,12 +438,22 @@
         <div class="widget">
           <div class="panel panel-default">
             <div class="panel-heading">Dinner</div>
-            <div class="panel-body">
-              <ul class="panel-list margin-top-1">
-                <li><i class="glyphicon glyphicon-pencil"></i>Info1</li>
-                <li><i class="fa fa-graduation-cap"></i>Info1</li>
-                <li><i class="fa fa-warning"></i>Info1</li>
-              </ul>
+               <div class="panel-body">
+                {% if  data_fromMealInfo_Dinner %}
+                    {% for x in data_fromMealInfo_Dinner %}
+                        <ul class="panel-list margin-top-1">
+                            <li><i class="glyphicon glyphicon-pencil"></i>{{   x[0] }}- {{  x[1] }} {{ x[2] }}</li>
+                        </ul>
+                    {% endfor %}
+                {% elif dataFromspecificMeal_Dinner%}
+                    {% for x in dataFromspecificMeal_Dinner %}
+                        <ul class="panel-list margin-top-1">
+                            <li><i class="glyphicon glyphicon-pencil"></i>{{   x[0] }}- {{  x[1] }} {{ x[2] }}</li>
+                        </ul>
+                    {% endfor %}
+                {% else  %}
+                <h4>No Item(S) consumed today</h4>
+                {% endif %}
             </div>
           </div>
         </div>
@@ -312,12 +462,22 @@
         <div class="widget">
           <div class="panel panel-default">
             <div class="panel-heading">Others</div>
-            <div class="panel-body">
-              <ul class="panel-list margin-top-1">
-                <li><i class="glyphicon glyphicon-pencil"></i>Info1</li>
-                <li><i class="fa fa-graduation-cap"></i>Info1</li>
-                <li><i class="fa fa-warning"></i>Info1</li>
-              </ul>
+                <div class="panel-body">
+                {% if  data_fromMealInfo_Others %}
+                    {% for x in data_fromMealInfo_Others %}
+                        <ul class="panel-list margin-top-1">
+                            <li><i class="glyphicon glyphicon-pencil"></i>{{   x[0] }}- {{  x[1] }} {{ x[2] }}</li>
+                        </ul>
+                    {% endfor %}
+                {% elif dataFromspecificMeal_Others %}
+                    {% for x in dataFromspecificMeal_Others %}
+                        <ul class="panel-list margin-top-1">
+                            <li><i class="glyphicon glyphicon-pencil"></i>{{   x[0] }}- {{  x[1] }} {{ x[2] }}</li>
+                        </ul>
+                    {% endfor %}
+                {% else  %}
+                <h4>No Item(S) consumed today</h4>
+                {% endif %}
             </div>
           </div>
         </div>
